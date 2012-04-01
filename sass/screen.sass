@@ -4,4 +4,55 @@
   Import this file using the following HTML or equivalent:
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
 
+@import "compass/css3/opacity"
 @import compass/reset
+
+
+.deck-container
+    width: 100%
+    padding: 0
+
+    .slide
+        height: 100%
+        padding: 0 !important
+
+
+        .icon
+            font-family: 'Pictos Custom'
+            -webkit-font-smoothing: antialiased
+
+        .hero-img
+            max-height: 70%
+            max-width: 70%
+
+        .full-img
+            max-width: 100%
+            max-height: 100%
+            margin: 0 auto
+
+        .credit
+            position: fixed
+            bottom: 0
+            left: 0
+            width: 100%
+            background: #000
+            +opacity(.75)
+            text-align: center
+
+            &:link,
+            &:active,
+            &:visited
+                color: #f00
+
+            &:hover
+                color: #f00
+                text-decoration: none
+                font-weight: bold
+
+    #problem
+        .problem-icon
+            font-size: 85px
+
+        .fade
+            color: #ddd
+
