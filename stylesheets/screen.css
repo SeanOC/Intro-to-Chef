@@ -77,23 +77,27 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   height: 100%;
   padding: 0 !important;
 }
-/* line 20, ../sass/screen.sass */
+/* line 19, ../sass/screen.sass */
+.deck-container .slide.dark {
+  background: black;
+}
+/* line 23, ../sass/screen.sass */
 .deck-container .slide .icon {
   font-family: "Pictos Custom";
   -webkit-font-smoothing: antialiased;
 }
-/* line 24, ../sass/screen.sass */
+/* line 27, ../sass/screen.sass */
 .deck-container .slide .hero-img {
   max-height: 70%;
   max-width: 70%;
 }
-/* line 28, ../sass/screen.sass */
+/* line 31, ../sass/screen.sass */
 .deck-container .slide .full-img {
   max-width: 100%;
   max-height: 100%;
   margin: 0 auto;
 }
-/* line 33, ../sass/screen.sass */
+/* line 36, ../sass/screen.sass */
 .deck-container .slide .credit {
   position: fixed;
   bottom: 0;
@@ -104,21 +108,21 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   opacity: 0.75;
   text-align: center;
 }
-/* line 42, ../sass/screen.sass */
+/* line 45, ../sass/screen.sass */
 .deck-container .slide .credit:link, .deck-container .slide .credit:active, .deck-container .slide .credit:visited {
   color: red;
 }
-/* line 47, ../sass/screen.sass */
+/* line 50, ../sass/screen.sass */
 .deck-container .slide .credit:hover {
   color: red;
   text-decoration: none;
   font-weight: bold;
 }
-/* line 53, ../sass/screen.sass */
+/* line 56, ../sass/screen.sass */
 .deck-container #problem .problem-icon {
   font-size: 85px;
 }
-/* line 56, ../sass/screen.sass */
+/* line 59, ../sass/screen.sass */
 .deck-container #problem .fade {
   color: #dddddd;
 }
