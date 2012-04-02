@@ -1,0 +1,159 @@
+AWS Creds:
+
+
+
+
+
+
+1.  git clone git://github.com/opscode/chef-repo.git
+
+2.  Create orgnaization in the opscode platform.
+
+3.  Downdload the validation key and knife.rb file
+
+4.  Copy files over and add AWS settings::
+
+knife[:aws_access_key_id]     = "AKIAIP3YDZ25VB3L7KTQ"
+knife[:aws_secret_access_key] = "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"
+
+5.  Verify that knife can talk to the platform::
+
+knife client list
+
+6.  Create a base role::
+
+{
+  "name": "base",
+  "default_attributes": {
+  },
+  "json_class": "Chef::Role",
+  "env_run_lists": {
+  },
+  "run_list": [
+
+  ],
+  "description": "",
+  "chef_type": "role",
+  "override_attributes": {
+  }
+}
+
+7. Vendor the chef-client cookbook
+
+knife cookbook site vendor chef-client
+
+8.  Show the new cookbook
+
+9.  Add the recipes and attrs to the base.json file
+
+
+    "recipe[chef-client::delete_validation]",
+    "recipe[chef-client::config]",
+    "recipe[chef-client]"
+
+    "chef_client": {
+      "server_url": "https://api.opscode.com/organizations/chef-demo",
+      "validation_client_name": "chef-demo-validator"
+    }
+
+10.  Upload the role and the cookbook to the platform::
+
+knife cookbook upload chef-client
+knife role from file roles/base.json
+
+11.  Launch a base server::
+
+knife ec2 server create -r "role[base]" -I ami-e2af508b -G www -x ubuntu -f m1.small -S chef-demo -x ubuntu
+
+12.  Show server in the ec2 dashboard and Opscode Platform
+
+https://seanoc.signin.aws.amazon.com/console/ec2
+manage.opscode.com
+
+13. Vendor nginx
+
+knife cookbook site vendor nginx
+
+14. Create web server role
+
+{
+  "name": "web-server",
+  "default_attributes": {
+  },
+  "json_class": "Chef::Role",
+  "env_run_lists": {
+  },
+  "run_list": [
+  	"role[base]",
+    "recipe[nginx]"
+  ],
+  "description": "",
+  "chef_type": "role",
+  "override_attributes": {
+  }
+}
+
+15. Updload the webserver role and nginx cookbook.
+
+knife cookbook upload nginx build-essential runit
+
+16. Launch a web server
+
+knife ec2 server create -r "role[web-server]" -I ami-e2af508b -G www -x ubuntu -f m1.small -S chef-demo -x ubuntu
+
+17.  Create a mysite cookbook
+
+knife cookbook create mysite
+
+18.  Setup a nginx site template
+
+server {
+  listen   80;
+  server_name  <%= node[:ec2][:public_hostname] %>;
+
+  access_log  <%= node[:nginx][:log_dir] %>/<%= node[:ec2][:public_hostname] %>.access.log;
+
+  location / {
+    root   /var/www/<%= node[:ec2][:public_hostname] %>;
+    index  index.html index.htm;
+  }
+}
+
+
+
+<html>
+<head>
+  <title>MySite</title>
+</head>
+<body>
+<h1>My Site Works!</h1>
+</body>
+</html>
+
+
+
+template "#{node[:nginx][:dir]}/sites-available/mysite" do
+  source "mysite_nginx.conf.erb"
+  notifies :restart, "service[nginx]"
+end
+
+directory "/var/www/#{node[:ec2][:public_hostname]}" do
+  action :create
+  owner "www-data"
+  group "www-data"
+  recursive true
+end
+
+cookbook_file "/var/www/#{node[:ec2][:public_hostname]}/index.html" do
+  owner "www-data"
+  group "www-data"
+end
+
+nginx_site "mysite" do
+  enable true
+end
+
+19. Add mysite to role.
+
+20.  Upload cookbook and role
+
