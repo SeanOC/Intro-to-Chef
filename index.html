@@ -68,12 +68,14 @@
 
     <section class="slide" id="problem">
         <h2>What's the problem?</h2>
-        <ul>
-            <li class="slide" id="problem-one-server"><div class="icon problem-icon">s</div></li>
-            <li class="slide" id="problem-several-servers"><div class="icon problem-icon">s s s</div></li>
-            <li class="slide" id="problem-several-server-types"><div class="icon problem-icon">s s s d d</div></li>
-            <li class="slide" id="problem-several-clusters"><div class="icon problem-icon">c <span class="fade">c</span> c d <span class="fade">d</span> c c <span class="fade">d</span></div></li>
-        </ul>
+        <div class="padded">
+            <ul>
+                <li class="slide" id="problem-one-server"><div class="icon problem-icon">s</div></li>
+                <li class="slide" id="problem-several-servers"><div class="icon problem-icon">s s s</div></li>
+                <li class="slide" id="problem-several-server-types"><div class="icon problem-icon">s s s d d</div></li>
+                <li class="slide" id="problem-several-clusters"><div class="icon problem-icon">c <span class="fade">c</span> c d <span class="fade">d</span> c c <span class="fade">d</span></div></li>
+            </ul>
+        </div>
     </section>
 
     <section class="slide" id="solution">
@@ -144,6 +146,189 @@
     <section class="slide dark" id="shell-script">
         <img class="full-img" src="images/shell-script.jpg" alt="Shell Script">
         <a href="http://www.flickr.com/photos/rakka/4479674123/" class="credit">http://www.flickr.com/photos/rakka/4479674123/</a>
+    </section>
+
+    <section class="slide dark" id="clones">
+        <img class="full-img" src="images/clones.jpg" alt="Clones">
+        <a href="http://www.flickr.com/photos/cayusa/384187184/" class="credit">http://www.flickr.com/photos/cayusa/384187184/</a>
+    </section>
+
+    <section class="slide dark" id="mo-r2">
+        <img class="full-img" src="images/mo-r2.jpg" alt="MO &amp; R2">
+        <a href="http://www.flickr.com/photos/donsolo/4540268022/" class="credit">http://www.flickr.com/photos/donsolo/4540268022/</a>
+    </section>
+
+    <section class="slide dark" id="legos">
+        <img class="full-img" src="images/legos.jpg" alt="Legos">
+        <a href="http://www.flickr.com/photos/wwworks/2473052504/" class="credit">http://www.flickr.com/photos/wwworks/2473052504/</a>
+    </section>
+
+    <section class="slide" id="chef-server">
+        <h2>Chef Server</h2>
+        <img class="full-img" src="images/chef-server.png" alt="Chef Server">
+    </section>
+
+    <section class="slide" id="chef-solo">
+        <h2>Chef Solo</h2>
+        <img class="full-img" src="images/chef-solo.png" alt="Chef Solo">
+    </section>
+
+    <section class="slide" id="resources">
+        <h2>Resources</h2>
+        <div class="padded">
+            <ul>
+                <li class="slide">
+                    <pre><code class="ruby">directory "/var/www/my-site" do
+  action :create
+  owner "www-data"
+  group "www-data"
+  recursive true
+end</code></pre>
+                </li>
+                <li class="slide">
+                    <h3>It's just Ruby!</h3>
+
+                    <pre><code class="ruby">%w{
+  libmemcached-tools
+  libmysqlclient-dev
+  imagemagick
+}.each do |pkg|
+  package pkg do
+    action :install
+  end
+end</code></pre>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="slide" id="recipes">
+        <h2>Recipes</h2>
+        <div class="padded">
+            <pre><code class="ruby">include_recipe "apache"
+
+directory "/var/www/my-site/html/" do
+  action :create
+  owner "www-data"
+  group "www-data"
+  mode "0775"
+  recursive true
+end
+
+template "/var/www/my-site/html/index.php" do
+  owner "www-data"
+  group "www-data"
+end</code></pre>
+        </div>
+    </section>
+
+    <section class="slide" id="attributes">
+        <h2>Attributes</h2>
+        <div class="padded">
+            <h3>coobkooks/mysite/attributes/default.rb</h3>
+            <pre><code class="ruby"># General settings
+default[:mysite][:listen_ports] = [ "80","443" ]
+default[:mysite][:contact] = "ops@example.com"
+default[:mysite][:web_dir] = "/var/www/mysite/html"</code></pre>
+            <h3>coobkooks/mysite/recipes/default.rb</h3>
+            <pre><code class="ruby">directory node[:mysite][:webdir] do
+  action :create
+  owner "www-data"
+  group "www-data"
+  mode "0775"
+  recursive true
+end</code></pre>
+        </div>
+    </section>
+
+    <section class="slide" id="cookbooks">
+        <h2>Cookbooks</h2>
+        <ul class="padded big">
+            <li class="slide" id="cookbook-attributes"><span class="icon">a</span> Attributes</li>
+            <li class="slide" id="cookbook-definitions"><span class="icon">D</span> Definitions</li>
+            <li class="slide" id="cookbook-files"><span class="icon">f</span> Files</li>
+            <li class="slide" id="cookbook-recipes"><span class="icon">r</span> Recipes</li>
+            <li class="slide" id="cookbook-templates"><span class="icon">t</span> Templates</li>
+            <li class="slide" id="cookbook-metadata"><span class="icon">m</span> Metadata</li>
+        </ul>
+    </section>
+
+    <section class="slide" id="roles-json">
+        <h2>Roles (JSON)</h2>
+        <div class="padded">
+            <pre><code class="javascript">{
+  "name": "base",
+  "default_attributes": {
+    "chef": {
+      "client_version": "0.10.0",
+      "server_url": "https://api.opscode.com/organizations/mysite",
+      "validation_client_name": "mysite-validator"
+    }
+  },
+  "json_class": "Chef::Role",
+  "run_list": [
+    "recipe[runit]",
+    "recipe[chef::bootstrap_client]",
+    "recipe[chef::delete_validation]",
+    "recipe[accounts::default]"
+  ],
+  "description": "",
+  "chef_type": "role",
+  "override_attributes": {
+  }
+}</code></pre>
+        </div>
+    </section>
+
+    <section class="slide" id="roles-ruby">
+        <h2>Roles (ruby)</h2>
+        <div class="padded">
+            <pre><code class="ruby">name "dev"
+override_attributes(
+  "mysite" => {
+    "debug" => false,
+    "revision" => "develop",
+    "default_queue" => "dev",
+  },
+  "dns" => {
+    "env" => {
+      "root_domain" => "mysite.io"
+    }
+  },
+)
+
+run_list(
+  "role[base]",
+  "recipe[apache]",
+  "recipe[mysite::web]"
+)
+</code></pre>
+        </div>
+    </section>
+
+    <section class="slide" id="nodes">
+        <h2>Nodes</h2>
+        <ul class="padded big">
+            <li class="slide" id="node-attributes"><span class="icon">a</span> Attributes</li>
+            <li class="slide" id="node-system-info"><span class="icon">S</span> System Info</li>
+        </ul>
+    </section>
+
+    <section class="slide" id="demo-time">
+        <h1>Demo Time!</h1>
+    </section>
+
+    <section class="slide" id="summary">
+        <h2>Final Advice</h2>
+        <ul class="padded big">
+            <li class="slide">
+                <img src="images/automate-all-the-things.jpg" alt="Automate all the things!" style="height: 150px">
+            </li>
+            <li class="slide">The <a href="http://wiki.opscode.com">Opscode Wiki</a> is your friend</li>
+            <li class="slide">Design and use simple, reusable, composable blocks (legos).</li>
+            <li class="slide">Don't hard code anything.  Use attributes, roles, databags, and search</li>
+            <li class="slide">Need help? Join <code>#chef</code> on freenode.  The Opscode crew is awesome and they don't bite (ususally).</li>
+        </ul>
     </section>
 
     <!-- deck.status snippet -->

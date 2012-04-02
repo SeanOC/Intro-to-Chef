@@ -78,51 +78,61 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   padding: 0 !important;
 }
 /* line 19, ../sass/screen.sass */
-.deck-container .slide.dark {
-  background: black;
+.deck-container .slide h2 {
+  margin-left: 10%;
+  margin-right: 10%;
 }
 /* line 23, ../sass/screen.sass */
+.deck-container .slide .padded {
+  margin: 0 10%;
+}
+/* line 28, ../sass/screen.sass */
 .deck-container .slide .icon {
   font-family: "Pictos Custom";
   -webkit-font-smoothing: antialiased;
 }
-/* line 27, ../sass/screen.sass */
+/* line 32, ../sass/screen.sass */
 .deck-container .slide .hero-img {
   max-height: 70%;
   max-width: 70%;
 }
-/* line 31, ../sass/screen.sass */
+/* line 36, ../sass/screen.sass */
 .deck-container .slide .full-img {
   max-width: 100%;
   max-height: 100%;
   margin: 0 auto;
 }
-/* line 36, ../sass/screen.sass */
+/* line 41, ../sass/screen.sass */
 .deck-container .slide .credit {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   background: black;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=75);
-  opacity: 0.75;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
   text-align: center;
 }
-/* line 45, ../sass/screen.sass */
+/* line 50, ../sass/screen.sass */
 .deck-container .slide .credit:link, .deck-container .slide .credit:active, .deck-container .slide .credit:visited {
   color: red;
 }
-/* line 50, ../sass/screen.sass */
+/* line 55, ../sass/screen.sass */
 .deck-container .slide .credit:hover {
   color: red;
   text-decoration: none;
   font-weight: bold;
 }
-/* line 56, ../sass/screen.sass */
+/* line 61, ../sass/screen.sass */
 .deck-container #problem .problem-icon {
   font-size: 85px;
 }
-/* line 59, ../sass/screen.sass */
+/* line 64, ../sass/screen.sass */
 .deck-container #problem .fade {
   color: #dddddd;
+}
+/* line 68, ../sass/screen.sass */
+.deck-container ul.big li {
+  font-size: 32px;
+  margin-bottom: 1em;
 }
